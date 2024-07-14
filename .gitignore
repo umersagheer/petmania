@@ -9,6 +9,9 @@
 # testing
 /coverage
 
+# Ignore SQLite database files
+prisma/dev.db
+
 # next.js
 /.next/
 /out/

@@ -1,5 +1,40 @@
+/*
+  Warnings:
+
+  - You are about to drop the `about` table. If the table is not empty, all the data it contains will be lost.
+  - You are about to drop the `address` table. If the table is not empty, all the data it contains will be lost.
+  - You are about to drop the `email` table. If the table is not empty, all the data it contains will be lost.
+  - You are about to drop the `number` table. If the table is not empty, all the data it contains will be lost.
+  - You are about to drop the `testimonial` table. If the table is not empty, all the data it contains will be lost.
+
+*/
+-- DropTable
+PRAGMA foreign_keys=off;
+DROP TABLE "about";
+PRAGMA foreign_keys=on;
+
+-- DropTable
+PRAGMA foreign_keys=off;
+DROP TABLE "address";
+PRAGMA foreign_keys=on;
+
+-- DropTable
+PRAGMA foreign_keys=off;
+DROP TABLE "email";
+PRAGMA foreign_keys=on;
+
+-- DropTable
+PRAGMA foreign_keys=off;
+DROP TABLE "number";
+PRAGMA foreign_keys=on;
+
+-- DropTable
+PRAGMA foreign_keys=off;
+DROP TABLE "testimonial";
+PRAGMA foreign_keys=on;
+
 -- CreateTable
-CREATE TABLE "about" (
+CREATE TABLE "About" (
     "id" TEXT NOT NULL PRIMARY KEY DEFAULT '1',
     "aboutDescription" TEXT NOT NULL,
     "visionDescription" TEXT NOT NULL,
@@ -13,7 +48,7 @@ CREATE TABLE "about" (
 );
 
 -- CreateTable
-CREATE TABLE "testimonial" (
+CREATE TABLE "Testimonial" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
@@ -24,7 +59,7 @@ CREATE TABLE "testimonial" (
 );
 
 -- CreateTable
-CREATE TABLE "number" (
+CREATE TABLE "Number" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "number" TEXT NOT NULL,
     "isWhatsapp" BOOLEAN NOT NULL DEFAULT false,
@@ -33,7 +68,7 @@ CREATE TABLE "number" (
 );
 
 -- CreateTable
-CREATE TABLE "email" (
+CREATE TABLE "Email" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "email" TEXT NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -41,7 +76,7 @@ CREATE TABLE "email" (
 );
 
 -- CreateTable
-CREATE TABLE "address" (
+CREATE TABLE "Address" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "address" TEXT NOT NULL,
     "addressLink" TEXT NOT NULL,

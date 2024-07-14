@@ -64,7 +64,7 @@ model VerificationToken {
 }
 
 // About ------------------------------------
-model about {
+model About {
   id                 String @id @default("1")
   aboutDescription   String
   visionDescription  String
@@ -73,12 +73,13 @@ model about {
   contactImg         String
   aboutImg           String
   descriptionImg     String
+  aboutHeroImg       String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model testimonial {
+model Testimonial {
   id          String @id @default(cuid())
   name        String
   description String
@@ -90,7 +91,7 @@ model testimonial {
 }
 
 // Contact ----------------------------------
-model number {
+model Number {
   id         String  @id @default(cuid())
   number     String
   isWhatsapp Boolean @default(false)
@@ -99,7 +100,7 @@ model number {
   updatedAt DateTime @updatedAt
 }
 
-model email {
+model Email {
   id    String @id @default(cuid())
   email String
 
@@ -107,7 +108,7 @@ model email {
   updatedAt DateTime @updatedAt
 }
 
-model address {
+model Address {
   id          String @id @default(cuid())
   address     String
   addressLink String

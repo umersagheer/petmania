@@ -1,21 +1,22 @@
+import "../globals.css";
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import { Toaster } from "sonner";
 
-import "../globals.css";
-
 import NextUiProvider from "@/providers/nextui-provider";
 import AuthProvider from "@/providers/auth-provider";
 import AdminNavbar from "@/components/admin/layout/navbar";
+import { BackgroundIllustration } from "@/components/icons/bg";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Savers Mart",
-  description: "A b2b platform for buying products.",
+  title: "Pet Mania",
+  description:
+    "Pet Mania offers a wide variety of cats and dogs food products.",
 };
 
-export default function RootLayout({
+export default function AdminLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -26,7 +27,10 @@ export default function RootLayout({
         <AuthProvider>
           <NextUiProvider>
             <AdminNavbar />
-            <main className="min-h-[calc(100vh-85px)] px-5 md:px-10 mt-5">
+            <main className="px-4 md:px-8 my-4">
+              <div className="fixed inset-0 overflow-hidden">
+                <BackgroundIllustration />
+              </div>
               {children}
             </main>
             <Toaster position="bottom-right" richColors />

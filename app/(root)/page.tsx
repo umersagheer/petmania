@@ -1,18 +1,21 @@
-"use client";
-
-import { Button } from "@nextui-org/react";
+import Image from "next/image";
 import React from "react";
-import { toast } from "sonner";
 
 const RootPage = () => {
   return (
-    <div className="flex flex-col gap-4 justify-center items-center h-screen">
-      <h1 className="text-4xl font-bold">Pet Mania</h1>
-      <p>This is the root page</p>
-      <p>It&apos;s just a placeholder</p>
-      <Button color="primary" onClick={() => toast.success("Hello World")}>
-        Click me
-      </Button>
+    <div className="flex flex-col justify-center items-center gap-3">
+      <Image
+        src={"/illustrations/delivery_truck.svg"}
+        width={50}
+        height={50}
+        alt="delivery-truck"
+        className="object-contain size-72"
+      />
+      <h1 className="text-4xl font-bold">Savers Mart</h1>
+      <p className="text-large">A b2b platform for buying products.</p>
+      <span className="inline-flex h-full animate-background-shine cursor-pointer items-center justify-center rounded-full border border-primary bg-[linear-gradient(110deg,#000,45%,#7828c8,55%,#000)] bg-[length:250%_100%] px-3 py-1 text-medium font-medium text-gray-300 -mt-1">
+        Coming soon...
+      </span>
     </div>
   );
 };

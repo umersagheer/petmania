@@ -1,13 +1,12 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { Toaster } from "sonner";
-
 import "../globals.css";
+import type { Metadata } from "next";
+import { Montserrat } from "next/font/google";
+import { Toaster } from "sonner";
 
 import NextUiProvider from "@/providers/nextui-provider";
 import AuthProvider from "@/providers/auth-provider";
 
-const inter = Inter({ subsets: ["latin"] });
+const montserrat = Montserrat({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Pet Mania",
@@ -15,14 +14,14 @@ export const metadata: Metadata = {
     "Pet Mania offers a wide variety of cats and dogs food products.",
 };
 
-export default function RootLayout({
+export default function AuthLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={montserrat.className}>
         <AuthProvider>
           <NextUiProvider>
             {children}

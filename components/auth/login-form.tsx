@@ -1,3 +1,5 @@
+"use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Input } from "@nextui-org/react";
 import { signIn, useSession } from "next-auth/react";
@@ -24,7 +26,7 @@ const LoginForm = () => {
 
   useEffect(() => {
     if (session?.status === "authenticated") {
-      router.push("/admin/dashboard");
+      router.push("/admin");
     }
   }, [session?.status, router]);
 
@@ -50,11 +52,10 @@ const LoginForm = () => {
     })
       .then((callback) => {
         if (callback?.error) {
-          toast.error("Invalid Credentials");
+          toast.error(callback.error);
         }
         if (callback?.ok && !callback?.error) {
           toast.info("Logged in");
-          router.push("/admin/dashboard");
           reset();
         }
       })

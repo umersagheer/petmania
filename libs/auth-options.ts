@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import CredentialProvider from "next-auth/providers/credentials";
 
-import prisma from "@/libs/prisma";
+import { prisma } from "@/libs/prisma";
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -23,7 +23,7 @@ export const authOptions: AuthOptions = {
           where: { email: credentials.email },
         });
         if (!user || !user?.hashedPassword) {
-          throw new Error("Invalid credentials");
+          throw new Error("User Doesnt Exist");
         }
 
         const isCorrectPassword = await bcrypt.compare(
@@ -32,7 +32,7 @@ export const authOptions: AuthOptions = {
         );
 
         if (!isCorrectPassword) {
-          throw new Error("Invalid credentials");
+          throw new Error("Incorrect password");
         }
 
         return user;

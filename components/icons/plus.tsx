@@ -1,7 +1,7 @@
 import React from "react";
 import { IconSvgProps } from "./types";
 
-const PLusIcon = ({ size = 24, width, height, ...props }: IconSvgProps) => {
+const PlusIcon = ({ size = 24, width, height, ...props }: IconSvgProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -22,4 +22,4 @@ const PLusIcon = ({ size = 24, width, height, ...props }: IconSvgProps) => {
   );
 };
 
-export default PLusIcon;
+export default PlusIcon;

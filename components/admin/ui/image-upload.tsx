@@ -2,18 +2,17 @@
 
 import { useEffect, useState } from "react";
 import { ImagePlusIcon, Trash } from "lucide-react";
-import { CldImage, CldUploadWidget } from "next-cloudinary";
+import { CldUploadWidget } from "next-cloudinary";
 import { toast } from "sonner";
 import axios from "axios";
 import { extractPublicId } from "@/libs/utils";
-import { Button } from "@nextui-org/react";
+import { Button, Image } from "@nextui-org/react";
 interface ImageUploadProps {
   disabled?: boolean;
   onChange: (value: string) => void;
   onRemove: (value: string) => void;
   value: string[];
   alt: string;
-  errorMessage: string | undefined;
 }
 const ImageUpload: React.FC<ImageUploadProps> = ({
   disabled,
@@ -21,7 +20,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   onRemove,
   value,
   alt,
-  errorMessage,
 }) => {
   const [isMounted, setIsMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -37,7 +35,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   if (!isMounted) return null;
 
   return (
-    <div>
+    <div className="my-1">
       <div className="mb-4 flex flex-wrap items-center gap-4">
         {value.map((url) => {
           return (
@@ -45,9 +43,9 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
               key={url}
               className="relative h-[200px] w-[200px] overflow-hidden rounded-md"
             >
-              <div className="absolute right-2 top-2 z-10">
+              <div className="absolute right-2 top-2 z-20">
                 <Button
-                  disabled={isLoading}
+                  isLoading={isLoading}
                   color="danger"
                   isIconOnly
                   type="button"
@@ -55,7 +53,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                     try {
                       setIsLoading(true);
                       const publicId = extractPublicId(url);
-
                       if (!publicId) {
                         toast.error("Public ID not found");
                         return;
@@ -64,7 +61,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                         public_id: publicId,
                       };
                       const { data: res } = await axios.post(
-                        `/api/images`,
+                        `/api/image`,
                         data
                       );
                       onRemove(url);
@@ -81,22 +78,19 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                   <Trash className="size-4" />
                 </Button>
               </div>
-              <CldImage
+              <Image
                 src={url}
                 alt={alt}
                 className="object-cover"
-                fill
                 sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw,33vw"
-                quality={85}
-                // gravity="auto"
               />
-              {errorMessage && <p>{errorMessage}</p>}
             </div>
           );
         })}
       </div>
+
       <CldUploadWidget
-        onUpload={onUpload}
+        onSuccess={onUpload}
         uploadPreset="petMania-uploads"
         options={{
           sources: ["local", "url", "unsplash"],
@@ -108,13 +102,17 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
           };
           return (
             <>
-              <Button type="button" disabled={disabled} onClick={onClick}>
-                <ImagePlusIcon className="mr-2 size-4" />
-                Upload an image
-              </Button>
-              <p className="text-xs prose max-w-[300px] my-1 font-bold">
-                Size less then 1mb
-              </p>
+              {value.length < 1 && (
+                <>
+                  <Button type="button" disabled={disabled} onClick={onClick}>
+                    <ImagePlusIcon className="mr-2 size-4" />
+                    Upload an image
+                  </Button>
+                  <p className="text-xs prose max-w-[300px] my-1 font-semibold">
+                    Size less then 1mb
+                  </p>
+                </>
+              )}
             </>
           );
         }}

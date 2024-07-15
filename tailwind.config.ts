@@ -10,6 +10,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      flexBasis: {
+        "1/3-minus-gap": "calc(33.33% - 20px)",
+        "1/2-minus-gap": "calc(50% - 20px)",
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":

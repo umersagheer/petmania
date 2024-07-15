@@ -75,6 +75,7 @@ const AdminNavbar = () => {
                 as="button"
                 className="transition-transform"
                 showFallback
+                fallback={session?.user?.name?.charAt(0)}
                 src="/logos/logo-base-s.xng"
               />
             </DropdownTrigger>

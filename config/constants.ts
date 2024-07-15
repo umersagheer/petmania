@@ -10,6 +10,9 @@ export const adminPaths = {
   dashboard: "/admin/dashboard",
   products: "/admin/products",
   about: "/admin/about",
-  testimonials: "/admin/about/testimonials",
+  testimonials: "/admin/testimonials",
   contact: "/admin/contact",
+  numbers: "/admin/contact/numbers",
+  emails: "/admin/contact/emails",
+  addresses: "/admin/contact/addresses",
 };

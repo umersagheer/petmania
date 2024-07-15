@@ -7,8 +7,8 @@ export const BackgroundIllustration = (props: IconSvgProps) => (
     focusable="false"
     role="presentation"
     viewBox="0 0 800 800"
-    width="50em"
-    height="50em"
+    width="70em"
+    height="70em"
     {...props}
   >
     <defs>

@@ -29,11 +29,11 @@ export default function AdminLayout({
             <AdminNavbar />
             <main className="px-4 md:px-8 my-4">
               <div className="fixed inset-0 overflow-hidden">
-                <BackgroundIllustration />
+                <BackgroundIllustration size={100} />
               </div>
               {children}
             </main>
-            <Toaster position="bottom-right" richColors />
+            <Toaster position="top-right" richColors closeButton />
           </NextUiProvider>
         </AuthProvider>
       </body>

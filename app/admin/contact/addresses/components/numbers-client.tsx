@@ -1,36 +1,36 @@
 "use client";
 
+import { Button } from "@nextui-org/react";
+import { Number } from "@prisma/client";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import axios from "axios";
+import { toast } from "sonner";
+
 import { Heading } from "@/components/admin/ui/heading";
 import DataTable from "@/components/admin/ui/table";
 import PlusIcon from "@/components/icons/plus";
 import { adminPaths, brand } from "@/config/constants";
-import { Button, Image } from "@nextui-org/react";
-import { Testimonial } from "@prisma/client";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import { columns, RenderCell } from "./columns";
 import AlertModal from "@/components/admin/ui/alert-modal";
 import ViewModal from "@/components/admin/ui/view-modal";
 import ModalContent from "./modal-content";
-import axios from "axios";
-import { toast } from "sonner";
 
-type TestimonialsClientProps = {
-  testimonials: Testimonial[] | null;
+type NumbersClientProps = {
+  numbers: Number[] | null;
 };
 
-const TestimonialsClient = ({ testimonials }: TestimonialsClientProps) => {
+const NumbersClient = ({ numbers }: NumbersClientProps) => {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  const [data, setData] = useState<Testimonial | null>(null);
+  const [data, setData] = useState<Number | null>(null);
 
   const [loading, setLoading] = useState(false);
 
-  const handleOpenModal = (testimonial: Testimonial) => {
+  const handleOpenModal = (billboard: Number) => {
     setIsModalOpen(true);
-    setData(testimonial);
+    setData(billboard);
   };
 
   const handleCloseModal = () => {
@@ -38,9 +38,9 @@ const TestimonialsClient = ({ testimonials }: TestimonialsClientProps) => {
     setData(null);
   };
 
-  const handleOpenDeleteModal = (testimonial: Testimonial) => {
+  const handleOpenDeleteModal = (billboard: Number) => {
     setIsDeleteModalOpen(true);
-    setData(testimonial);
+    setData(billboard);
   };
 
   const handleCloseDeleteModal = () => {
@@ -51,7 +51,7 @@ const TestimonialsClient = ({ testimonials }: TestimonialsClientProps) => {
   const onDelete = async (id: string) => {
     try {
       setLoading(true);
-      await axios.delete(`/api/testimonials/${id}`);
+      await axios.delete(`/api/numbers/${id}`);
       router.refresh();
       toast.success("Billboard deleted successfully");
     } catch (error) {
@@ -67,16 +67,13 @@ const TestimonialsClient = ({ testimonials }: TestimonialsClientProps) => {
   return (
     <div>
       <div className="flex justify-between items-center">
-        <Heading
-          title="Testimonials"
-          description={`Manage ${brand.name} Testimonials`}
-        />
+        <Heading title="Numbers" description={`Manage ${brand.name} Numbers`} />
         <Button
           color="primary"
           variant="flat"
           startContent={<PlusIcon width={16} height={16} />}
           onClick={() => {
-            router.push(`${adminPaths.testimonials}/add`);
+            router.push(`${adminPaths.numbers}/add`);
           }}
         >
           Add
@@ -84,14 +81,14 @@ const TestimonialsClient = ({ testimonials }: TestimonialsClientProps) => {
       </div>
 
       <div className="my-2 md:mx-5">
-        {testimonials && (
-          <DataTable<Testimonial>
+        {/* {numbers && (
+          <DataTable<Number>
             searchKey="name"
-            data={testimonials}
+            data={numbers}
             columns={columns}
             renderCell={(item, columnKey) =>
               RenderCell({
-                testimonial: item,
+                number: item,
                 columnKey,
                 onOpenModal: handleOpenModal,
                 onOpenDeleteModal: handleOpenDeleteModal,
@@ -99,7 +96,7 @@ const TestimonialsClient = ({ testimonials }: TestimonialsClientProps) => {
               })
             }
           />
-        )}
+        )} */}
       </div>
 
       {isDeleteModalOpen && (
@@ -113,7 +110,7 @@ const TestimonialsClient = ({ testimonials }: TestimonialsClientProps) => {
       )}
 
       {isModalOpen && (
-        <ViewModal title={"Testimonial"} onClose={handleCloseModal}>
+        <ViewModal title={"Number"} onClose={handleCloseModal}>
           <ModalContent data={data} />
         </ViewModal>
       )}
@@ -121,4 +118,4 @@ const TestimonialsClient = ({ testimonials }: TestimonialsClientProps) => {
   );
 };
 
-export default TestimonialsClient;
+export default NumbersClient;

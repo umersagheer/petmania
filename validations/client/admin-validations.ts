@@ -20,3 +20,12 @@ export const testimonialSchema = z.object({
     .max(5, { message: "Rating should be less then 6" }),
   image: z.string().min(1, { message: "Image must be provided" }),
 });
+
+export const NumberSchema = z.object({
+  number: z.string().min(1, { message: "Number must be filled" }),
+  isWhatsapp: z.boolean(),
+});
+
+export const EmailSchema = z.object({
+  email: z.string().email().min(1, { message: "Email must be filled" }),
+});

@@ -5,8 +5,8 @@ import {
   Button,
   Card,
   CardBody,
+  Checkbox,
   Input,
-  Textarea,
   Tooltip,
 } from "@nextui-org/react";
 import React, { useState } from "react";
@@ -19,51 +19,41 @@ import axios from "axios";
 import { Heading } from "@/components/admin/ui/heading";
 import BackArrowIcon from "@/components/icons/back";
 import ImageUpload from "@/components/admin/ui/image-upload";
-import { Testimonial } from "@prisma/client";
-import { testimonialSchema } from "@/validations/client/admin-validations";
+import { Number } from "@prisma/client";
+import { NumberSchema } from "@/validations/client/admin-validations";
 import { DeleteIcon } from "@/components/icons/delete";
 import { adminPaths } from "@/config/constants";
 import AlertModal from "@/components/admin/ui/alert-modal";
+import { PhoneIcon } from "lucide-react";
 
-type TestimonialFormProps = {
-  initialData: Testimonial | null;
+type NumberFormProps = {
+  initialData: Number | null;
 };
 
-const TestimonialForm = ({ initialData }: TestimonialFormProps) => {
+const NumberForm = ({ initialData }: NumberFormProps) => {
   const router = useRouter();
   const params = useParams();
   const [loading, setLoading] = useState(false);
   const [deletionLoading, setDeletionLoading] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [showToastForErrors, setShowToastForErrors] = useState({
-    image: false,
-  });
-  const [isImageUploaded, setIsImageUploaded] = useState<boolean>(
-    !!initialData?.image
-  );
 
   const {
     control,
     formState: { errors },
     handleSubmit,
   } = useForm({
-    resolver: zodResolver(testimonialSchema),
+    resolver: zodResolver(NumberSchema),
     defaultValues: initialData || {
-      name: "",
-      description: "",
-      rating: 0,
-      image: "",
+      number: "",
+      isWhatsapp: false,
     },
   });
 
   const toastMessage = initialData
-    ? "Testimonial updated successfully"
-    : "Testimonial added successfully";
-  const imageMessage = initialData
-    ? "Updating testimonial"
-    : "Creating testimonial";
+    ? "Number updated successfully"
+    : "Number added successfully";
   const action = initialData ? "Save changes" : "Create";
-  const title = initialData ? "Edit Testimonial" : "Testimonial";
+  const title = initialData ? "Edit Number" : "Number";
 
   const handleOpenDeleteModal = () => {
     setIsDeleteModalOpen(true);
@@ -73,15 +63,15 @@ const TestimonialForm = ({ initialData }: TestimonialFormProps) => {
     setIsDeleteModalOpen(false);
   };
 
-  const onFormSubmit = async (data: z.infer<typeof testimonialSchema>) => {
+  const onFormSubmit = async (data: z.infer<typeof NumberSchema>) => {
     try {
       setLoading(true);
       if (initialData) {
-        await axios.patch(`/api/testimonials/${params.testimonialId}`, data);
+        await axios.patch(`/api/numbers/${params.numberId}`, data);
       } else {
-        await axios.post(`/api/testimonials`, data);
+        await axios.post(`/api/numbers`, data);
       }
-      router.replace(`${adminPaths.testimonials}`);
+      router.replace(`${adminPaths.numbers}`);
       router.refresh();
       toast.success(toastMessage);
     } catch (error) {
@@ -104,10 +94,10 @@ const TestimonialForm = ({ initialData }: TestimonialFormProps) => {
   const onDelete = async (id: string) => {
     try {
       setDeletionLoading(true);
-      await axios.delete(`/api/testimonials/${id}`);
-      router.replace(`${adminPaths.testimonials}`);
+      await axios.delete(`/api/numbers/${id}`);
+      router.replace(`${adminPaths.numbers}`);
       router.refresh();
-      toast.success("Testimonial deleted successfully");
+      toast.success("Number deleted successfully");
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         toast.warning(error.response.data);
@@ -123,27 +113,20 @@ const TestimonialForm = ({ initialData }: TestimonialFormProps) => {
     <div>
       {isDeleteModalOpen && (
         <AlertModal
-          title={"Delete Testimonial"}
+          title={"Delete Number"}
           onClose={handleCloseDeleteModal}
           onDelete={onDelete}
           loading={deletionLoading}
-          id={params.testimonialId as string}
+          id={params.numberId as string}
         />
       )}
       <div className="flex items-center justify-between">
-        <Heading title={title} description="Manage Testimonial" />
+        <Heading title={title} description="Manage Number" />
         <div className="relative flex items-center justify-center gap-2">
-          <Tooltip
-            color={isImageUploaded && !initialData ? "danger" : "default"}
-            content={
-              isImageUploaded && !initialData ? "Save changes first" : "Back"
-            }
-            size="sm"
-          >
+          <Tooltip color={"default"} content={"Back"} size="sm">
             <div className="inline-block">
               <Button
                 isIconOnly
-                isDisabled={isImageUploaded && !initialData}
                 color="primary"
                 variant="flat"
                 onClick={() => {
@@ -179,85 +162,41 @@ const TestimonialForm = ({ initialData }: TestimonialFormProps) => {
           isBlurred
           className="border-none bg-background/50 dark:bg-default-100/50 "
         >
-          <CardBody className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 justify-center items-center">
-            <div className="md:col-span-2 lg:col-span-3">
-              <p className="text-small my-1">Customer Image</p>
-              <Controller
-                name="image"
-                control={control}
-                render={({ field }) => (
-                  <ImageUpload
-                    onChange={(url) => {
-                      field.onChange(url);
-                      setIsImageUploaded(true);
-                      toast.warning(
-                        `Please remove image if wanna leave without ${imageMessage}`
-                      );
-                    }}
-                    onRemove={() => field.onChange("")}
-                    disabled={field.disabled}
-                    value={field.value ? [field.value] : []}
-                    alt={"Testimonial img"}
-                  />
-                )}
-              />
-              <p className="text-xs text-rose-500">{errors.image?.message}</p>
-              {errors.image && !showToastForErrors.image && (
-                <>
-                  {toast.warning("Please upload Testimonial image")}
-                  {setShowToastForErrors((prevState) => ({
-                    ...prevState,
-                    image: true,
-                  }))}
-                </>
-              )}
-            </div>
-
+          <CardBody className="grid grid-cols-1 md:grid-cols-2 gap-3 justify-center items-start">
             <Controller
-              name="name"
+              name="number"
               control={control}
               render={({ field }) => (
                 <Input
-                  label="Customer Name"
+                  label="Phone Number"
+                  description="Format: +923018155698"
                   type="text"
                   size="sm"
                   {...field}
-                  isInvalid={Boolean(errors.name)}
-                  errorMessage={errors.name?.message}
+                  isInvalid={Boolean(errors.number)}
+                  errorMessage={errors.number?.message}
                 />
               )}
             />
 
             <Controller
-              name="rating"
+              name="isWhatsapp"
               control={control}
               render={({ field }) => (
-                <Input
-                  label="Rating"
-                  type="number"
-                  size="sm"
-                  {...field}
-                  value={String(field.value)}
-                  isInvalid={Boolean(errors.rating)}
-                  errorMessage={errors.rating?.message}
-                />
-              )}
-            />
-
-            <Controller
-              name="description"
-              control={control}
-              render={({ field }) => (
-                <Textarea
-                  minRows={2}
-                  maxRows={4}
-                  label="Description"
-                  type="text"
-                  size="sm"
-                  {...field}
-                  isInvalid={Boolean(errors.description)}
-                  errorMessage={errors.description?.message}
-                />
+                <Checkbox
+                  isSelected={field.value}
+                  onValueChange={field.onChange}
+                  className="max-w-sm m- p-3 bg-content2 hover:bg-content3 rounded-lg"
+                >
+                  <div className="flex">
+                    Use as WhatsApp also
+                    <PhoneIcon
+                      className="ml-2 text-green-500"
+                      width={20}
+                      height={20}
+                    />
+                  </div>
+                </Checkbox>
               )}
             />
           </CardBody>
@@ -276,4 +215,4 @@ const TestimonialForm = ({ initialData }: TestimonialFormProps) => {
   );
 };
 
-export default TestimonialForm;
+export default NumberForm;

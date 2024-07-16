@@ -10,6 +10,15 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      utilities: {
+        ".hide-scrollbar": {
+          "::-webkit-scrollbar": {
+            display: "none",
+          },
+          "-ms-overflow-style": "none",
+          "scrollbar-width": "none",
+        },
+      },
       flexBasis: {
         "1/3-minus-gap": "calc(33.33% - 20px)",
         "1/2-minus-gap": "calc(50% - 20px)",

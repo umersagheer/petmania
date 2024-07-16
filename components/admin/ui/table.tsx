@@ -82,11 +82,10 @@ export default function DataTable<TData>({
         autoFocus={false}
         aria-label="Table to display data"
         isStriped
-        // topContentPlacement="outside"
         topContent={
           <Input
             isClearable
-            className="w-full sm:max-w-[44%]"
+            className="w-full sm:max-w-[30%]"
             placeholder={`Search by ${String(searchKey && searchKey)}...`}
             startContent={<SearchIcon />}
             value={filterValue}
@@ -121,7 +120,7 @@ export default function DataTable<TData>({
           items={items}
           emptyContent={
             <div className="flex h-full flex-col items-center justify-center">
-              <p>No data</p>
+              <p>No data found :(</p>
               <Image
                 src={"/illustrations/blank.svg"}
                 alt="No data"

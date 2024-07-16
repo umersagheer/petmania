@@ -14,6 +14,7 @@ import { adminPaths, brand } from "@/config/constants";
 import AlertModal from "@/components/admin/ui/alert-modal";
 import ViewModal from "@/components/admin/ui/view-modal";
 import ModalContent from "./modal-content";
+import { columns, RenderCell } from "./columns";
 
 type NumbersClientProps = {
   numbers: Number[] | null;
@@ -28,9 +29,9 @@ const NumbersClient = ({ numbers }: NumbersClientProps) => {
 
   const [loading, setLoading] = useState(false);
 
-  const handleOpenModal = (billboard: Number) => {
+  const handleOpenModal = (number: Number) => {
     setIsModalOpen(true);
-    setData(billboard);
+    setData(number);
   };
 
   const handleCloseModal = () => {
@@ -38,9 +39,9 @@ const NumbersClient = ({ numbers }: NumbersClientProps) => {
     setData(null);
   };
 
-  const handleOpenDeleteModal = (billboard: Number) => {
+  const handleOpenDeleteModal = (number: Number) => {
     setIsDeleteModalOpen(true);
-    setData(billboard);
+    setData(number);
   };
 
   const handleCloseDeleteModal = () => {
@@ -53,7 +54,7 @@ const NumbersClient = ({ numbers }: NumbersClientProps) => {
       setLoading(true);
       await axios.delete(`/api/numbers/${id}`);
       router.refresh();
-      toast.success("Billboard deleted successfully");
+      toast.success("Number deleted successfully");
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         toast.warning(error.response.data);
@@ -81,9 +82,9 @@ const NumbersClient = ({ numbers }: NumbersClientProps) => {
       </div>
 
       <div className="my-2 md:mx-5">
-        {/* {numbers && (
+        {numbers && (
           <DataTable<Number>
-            searchKey="name"
+            searchKey="number"
             data={numbers}
             columns={columns}
             renderCell={(item, columnKey) =>
@@ -96,12 +97,12 @@ const NumbersClient = ({ numbers }: NumbersClientProps) => {
               })
             }
           />
-        )} */}
+        )}
       </div>
 
       {isDeleteModalOpen && (
         <AlertModal
-          title={"Delete Billboard"}
+          title={"Delete Number"}
           onClose={handleCloseDeleteModal}
           onDelete={onDelete}
           loading={loading}

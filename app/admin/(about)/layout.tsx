@@ -16,7 +16,7 @@ export default async function AboutLayout({
   }
   return (
     <>
-      <div className="fixed top-14 py-4 z-40 bg-background/60 w-full -mx-4 md:-mx-8 px-4 md:px-8 backdrop-blur-lg ">
+      <div className="fixed top-14 py-4 z-20 bg-background/60 w-full -mx-4 md:-mx-8 px-4 md:px-8 backdrop-blur-lg ">
         <AboutTabs />
       </div>
       <Suspense fallback={<Loading />}>

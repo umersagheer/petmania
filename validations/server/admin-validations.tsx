@@ -21,3 +21,12 @@ export const testimonialSchema = yup.object().shape({
     .required(),
   image: yup.string().required("Image must be provided"),
 });
+
+export const numberSchema = yup.object().shape({
+  number: yup.string().required("Number must be filled"),
+  isWhatsapp: yup.boolean(),
+});
+
+export const emailSchema = yup.object().shape({
+  email: yup.string().required("Email must be filled"),
+});

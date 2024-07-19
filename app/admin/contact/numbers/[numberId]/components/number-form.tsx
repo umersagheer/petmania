@@ -18,9 +18,8 @@ import axios from "axios";
 
 import { Heading } from "@/components/admin/ui/heading";
 import BackArrowIcon from "@/components/icons/back";
-import ImageUpload from "@/components/admin/ui/image-upload";
 import { Number } from "@prisma/client";
-import { NumberSchema } from "@/validations/client/admin-validations";
+import { numberSchema } from "@/validations/client/admin-validations";
 import { DeleteIcon } from "@/components/icons/delete";
 import { adminPaths } from "@/config/constants";
 import AlertModal from "@/components/admin/ui/alert-modal";
@@ -42,7 +41,7 @@ const NumberForm = ({ initialData }: NumberFormProps) => {
     formState: { errors },
     handleSubmit,
   } = useForm({
-    resolver: zodResolver(NumberSchema),
+    resolver: zodResolver(numberSchema),
     defaultValues: initialData || {
       number: "",
       isWhatsapp: false,
@@ -63,7 +62,7 @@ const NumberForm = ({ initialData }: NumberFormProps) => {
     setIsDeleteModalOpen(false);
   };
 
-  const onFormSubmit = async (data: z.infer<typeof NumberSchema>) => {
+  const onFormSubmit = async (data: z.infer<typeof numberSchema>) => {
     try {
       setLoading(true);
       if (initialData) {

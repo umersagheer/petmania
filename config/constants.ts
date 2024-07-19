@@ -15,4 +15,8 @@ export const adminPaths = {
   numbers: "/admin/contact/numbers",
   emails: "/admin/contact/emails",
   addresses: "/admin/contact/addresses",
+  deals: "/admin/products/deals",
+  tags: "/admin/products/tags",
+  weights: "/admin/products/weights",
+  addProducts: "/admin/products/manage-products",
 };

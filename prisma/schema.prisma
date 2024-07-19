@@ -117,6 +117,64 @@ model Address {
   updatedAt DateTime @updatedAt
 }
 
+// Product --------------------------------
+model Deal {
+  id      String    @id @default(cuid())
+  name    String    @unique
+  Product Product[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Weight {
+  id      String    @id @default(cuid())
+  value   String
+  unit    String
+  Product Product[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Tag {
+  id      String    @id @default(cuid())
+  name    String
+  Product Product[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Image {
+  id        String   @id @default(cuid())
+  url       String
+  Product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Product {
+  id                 String   @id @default(cuid())
+  title              String
+  price              String
+  type               Int
+  decription         String
+  ingredients        String
+  calorieContent     String
+  guaranteedAnalysis String
+  benefits           String
+  images             Image[]
+  weights            Weight[]
+  tags               Tag[]
+  deals              Deal[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 // Home -----------------------------------
 // model banner {
 //   id          String @id @default(cuid())

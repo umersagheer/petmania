@@ -11,17 +11,17 @@ import axios from "axios";
 
 import { Heading } from "@/components/admin/ui/heading";
 import BackArrowIcon from "@/components/icons/back";
-import { Email } from "@prisma/client";
-import { emailSchema } from "@/validations/client/admin-validations";
+import { Address } from "@prisma/client";
+import { addressSchema } from "@/validations/client/admin-validations";
 import { DeleteIcon } from "@/components/icons/delete";
 import { adminPaths } from "@/config/constants";
 import AlertModal from "@/components/admin/ui/alert-modal";
 
-type EmailFormProps = {
-  initialData: Email | null;
+type AddressFormProps = {
+  initialData: Address | null;
 };
 
-const EmailForm = ({ initialData }: EmailFormProps) => {
+const AddressForm = ({ initialData }: AddressFormProps) => {
   const router = useRouter();
   const params = useParams();
   const [loading, setLoading] = useState(false);
@@ -33,17 +33,17 @@ const EmailForm = ({ initialData }: EmailFormProps) => {
     formState: { errors },
     handleSubmit,
   } = useForm({
-    resolver: zodResolver(emailSchema),
+    resolver: zodResolver(addressSchema),
     defaultValues: initialData || {
-      email: "",
+      address: "",
     },
   });
 
   const toastMessage = initialData
-    ? "Email updated successfully"
-    : "Email added successfully";
+    ? "Address updated successfully"
+    : "Address added successfully";
   const action = initialData ? "Save changes" : "Create";
-  const title = initialData ? "Edit Email" : "Email";
+  const title = initialData ? "Edit Address" : "Address";
 
   const handleOpenDeleteModal = () => {
     setIsDeleteModalOpen(true);
@@ -53,15 +53,15 @@ const EmailForm = ({ initialData }: EmailFormProps) => {
     setIsDeleteModalOpen(false);
   };
 
-  const onFormSubmit = async (data: z.infer<typeof emailSchema>) => {
+  const onFormSubmit = async (data: z.infer<typeof addressSchema>) => {
     try {
       setLoading(true);
       if (initialData) {
-        await axios.patch(`/api/emails/${params.emailId}`, data);
+        await axios.patch(`/api/addresses/${params.addressId}`, data);
       } else {
-        await axios.post(`/api/emails`, data);
+        await axios.post(`/api/addresses`, data);
       }
-      router.replace(`${adminPaths.emails}`);
+      router.replace(`${adminPaths.addresses}`);
       router.refresh();
       toast.success(toastMessage);
     } catch (error) {
@@ -84,10 +84,10 @@ const EmailForm = ({ initialData }: EmailFormProps) => {
   const onDelete = async (id: string) => {
     try {
       setDeletionLoading(true);
-      await axios.delete(`/api/emails/${id}`);
-      router.replace(`${adminPaths.emails}`);
+      await axios.delete(`/api/addresses/${id}`);
+      router.replace(`${adminPaths.addresses}`);
       router.refresh();
-      toast.success("Email deleted successfully");
+      toast.success("Address deleted successfully");
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         toast.warning(error.response.data);
@@ -103,15 +103,15 @@ const EmailForm = ({ initialData }: EmailFormProps) => {
     <div>
       {isDeleteModalOpen && (
         <AlertModal
-          title={"Delete Email"}
+          title={"Delete Address"}
           onClose={handleCloseDeleteModal}
           onDelete={onDelete}
           loading={deletionLoading}
-          id={params.emailId as string}
+          id={params.addressId as string}
         />
       )}
       <div className="flex items-center justify-between">
-        <Heading title={title} description="Manage Email" />
+        <Heading title={title} description="Manage Address" />
         <div className="relative flex items-center justify-center gap-2">
           <Tooltip color={"default"} content={"Back"} size="sm">
             <div className="inline-block">
@@ -154,16 +154,31 @@ const EmailForm = ({ initialData }: EmailFormProps) => {
         >
           <CardBody className="grid grid-cols-1 md:grid-cols-2 gap-3 justify-center items-start">
             <Controller
-              name="email"
+              name="address"
               control={control}
               render={({ field }) => (
                 <Input
-                  label="Email"
+                  label="Address"
                   type="text"
                   size="sm"
                   {...field}
-                  isInvalid={Boolean(errors.email)}
-                  errorMessage={errors.email?.message}
+                  isInvalid={Boolean(errors.address)}
+                  errorMessage={errors.address?.message}
+                />
+              )}
+            />
+
+            <Controller
+              name="addressLink"
+              control={control}
+              render={({ field }) => (
+                <Input
+                  label="Address Link"
+                  type="text"
+                  size="sm"
+                  {...field}
+                  isInvalid={Boolean(errors.addressLink)}
+                  errorMessage={errors.addressLink?.message}
                 />
               )}
             />
@@ -183,4 +198,4 @@ const EmailForm = ({ initialData }: EmailFormProps) => {
   );
 };
 
-export default EmailForm;
+export default AddressForm;

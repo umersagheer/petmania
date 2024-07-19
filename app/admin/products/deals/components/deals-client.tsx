@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@nextui-org/react";
-import { Number } from "@prisma/client";
+import { Email } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import axios from "axios";
@@ -14,23 +14,24 @@ import { adminPaths, brand } from "@/config/constants";
 import AlertModal from "@/components/admin/ui/alert-modal";
 import ViewModal from "@/components/admin/ui/view-modal";
 import ModalContent from "./modal-content";
+import { columns, RenderCell } from "./columns";
 
-type NumbersClientProps = {
-  numbers: Number[] | null;
+type EmailsClientProps = {
+  emails: Email[] | null;
 };
 
-const NumbersClient = ({ numbers }: NumbersClientProps) => {
+const EmailsClient = ({ emails }: EmailsClientProps) => {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  const [data, setData] = useState<Number | null>(null);
+  const [data, setData] = useState<Email | null>(null);
 
   const [loading, setLoading] = useState(false);
 
-  const handleOpenModal = (billboard: Number) => {
+  const handleOpenModal = (email: Email) => {
     setIsModalOpen(true);
-    setData(billboard);
+    setData(email);
   };
 
   const handleCloseModal = () => {
@@ -38,9 +39,9 @@ const NumbersClient = ({ numbers }: NumbersClientProps) => {
     setData(null);
   };
 
-  const handleOpenDeleteModal = (billboard: Number) => {
+  const handleOpenDeleteModal = (email: Email) => {
     setIsDeleteModalOpen(true);
-    setData(billboard);
+    setData(email);
   };
 
   const handleCloseDeleteModal = () => {
@@ -51,9 +52,9 @@ const NumbersClient = ({ numbers }: NumbersClientProps) => {
   const onDelete = async (id: string) => {
     try {
       setLoading(true);
-      await axios.delete(`/api/numbers/${id}`);
+      await axios.delete(`/api/emails/${id}`);
       router.refresh();
-      toast.success("Billboard deleted successfully");
+      toast.success("Email deleted successfully");
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         toast.warning(error.response.data);
@@ -67,13 +68,13 @@ const NumbersClient = ({ numbers }: NumbersClientProps) => {
   return (
     <div>
       <div className="flex justify-between items-center">
-        <Heading title="Numbers" description={`Manage ${brand.name} Numbers`} />
+        <Heading title="Emails" description={`Manage ${brand.name} Emails`} />
         <Button
           color="primary"
           variant="flat"
           startContent={<PlusIcon width={16} height={16} />}
           onClick={() => {
-            router.push(`${adminPaths.numbers}/add`);
+            router.push(`${adminPaths.emails}/add`);
           }}
         >
           Add
@@ -81,14 +82,14 @@ const NumbersClient = ({ numbers }: NumbersClientProps) => {
       </div>
 
       <div className="my-2 md:mx-5">
-        {/* {numbers && (
-          <DataTable<Number>
-            searchKey="name"
-            data={numbers}
+        {emails && (
+          <DataTable<Email>
+            searchKey="email"
+            data={emails}
             columns={columns}
             renderCell={(item, columnKey) =>
               RenderCell({
-                number: item,
+                email: item,
                 columnKey,
                 onOpenModal: handleOpenModal,
                 onOpenDeleteModal: handleOpenDeleteModal,
@@ -96,12 +97,12 @@ const NumbersClient = ({ numbers }: NumbersClientProps) => {
               })
             }
           />
-        )} */}
+        )}
       </div>
 
       {isDeleteModalOpen && (
         <AlertModal
-          title={"Delete Billboard"}
+          title={"Delete Email"}
           onClose={handleCloseDeleteModal}
           onDelete={onDelete}
           loading={loading}
@@ -110,7 +111,7 @@ const NumbersClient = ({ numbers }: NumbersClientProps) => {
       )}
 
       {isModalOpen && (
-        <ViewModal title={"Number"} onClose={handleCloseModal}>
+        <ViewModal title={"Email"} onClose={handleCloseModal}>
           <ModalContent data={data} />
         </ViewModal>
       )}
@@ -118,4 +119,4 @@ const NumbersClient = ({ numbers }: NumbersClientProps) => {
   );
 };
 
-export default NumbersClient;
+export default EmailsClient;

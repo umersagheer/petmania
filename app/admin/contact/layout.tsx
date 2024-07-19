@@ -2,7 +2,7 @@ import React, { Suspense } from "react";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import Loading from "../loading";
-import ContactTabs from "./components/tabs";
+import ContactTabs from "./tabs";
 
 export default async function ContactLayout({
   children,

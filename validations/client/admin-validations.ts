@@ -21,11 +21,16 @@ export const testimonialSchema = z.object({
   image: z.string().min(1, { message: "Image must be provided" }),
 });
 
-export const NumberSchema = z.object({
+export const numberSchema = z.object({
   number: z.string().min(1, { message: "Number must be filled" }),
   isWhatsapp: z.boolean(),
 });
 
-export const EmailSchema = z.object({
+export const emailSchema = z.object({
   email: z.string().email().min(1, { message: "Email must be filled" }),
+});
+
+export const addressSchema = z.object({
+  address: z.string().min(1, { message: "Address must be filled" }),
+  addressLink: z.string().min(1, { message: "Adress Link must be filled" }),
 });

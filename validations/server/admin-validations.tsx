@@ -30,3 +30,8 @@ export const numberSchema = yup.object().shape({
 export const emailSchema = yup.object().shape({
   email: yup.string().required("Email must be filled"),
 });
+
+export const addressSchema = yup.object().shape({
+  address: yup.string().required("Address must be filled"),
+  addressLink: yup.string().required("Adress Link must be filled"),
+});

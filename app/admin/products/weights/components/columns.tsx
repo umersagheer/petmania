@@ -7,27 +7,35 @@ import {
   DropdownTrigger,
 } from "@nextui-org/react";
 
-import { Email } from "@prisma/client";
+import { Weight } from "@prisma/client";
 import { VerticalDotsIcon } from "@/components/icons/verticle-dots";
 import { adminPaths } from "@/config/constants";
 
 export type ColumnsType = {
-  key: keyof Omit<Email, "id"> | "actions";
+  key: keyof Omit<Weight, "id"> | "actions";
   label: string;
 };
 
 type RenderCellProps = {
-  email: Email;
-  columnKey: keyof Email | "actions";
-  onOpenModal: (email: Email) => void;
-  onOpenDeleteModal: (email: Email) => void;
+  weight: Weight;
+  columnKey: keyof Weight | "actions";
+  onOpenModal: (weight: Weight) => void;
+  onOpenDeleteModal: (weight: Weight) => void;
   router: any;
 };
 
 export const columns: ColumnsType[] = [
   {
-    key: "email",
-    label: "Email",
+    key: "value",
+    label: "Weight Value",
+  },
+  {
+    key: "unit",
+    label: "Unit",
+  },
+  {
+    key: "price",
+    label: "Price in PKR",
   },
   {
     key: "actions",
@@ -36,17 +44,23 @@ export const columns: ColumnsType[] = [
 ];
 
 export const RenderCell = ({
-  email,
+  weight,
   columnKey,
   onOpenModal,
   onOpenDeleteModal,
   router,
 }: RenderCellProps) => {
   const cellValue =
-    email[columnKey as keyof Omit<Email, "createdAt" | "updatedAt">];
+    weight[columnKey as keyof Omit<Weight, "createdAt" | "updatedAt">];
   switch (columnKey) {
-    case "email":
+    case "value":
       return <div>{cellValue}</div>;
+
+    case "unit":
+      return <div>{cellValue}</div>;
+
+    case "price":
+      return <div className="font-semibold">{cellValue} PKR</div>;
 
     case "actions":
       return (
@@ -59,12 +73,12 @@ export const RenderCell = ({
                 </Button>
               </DropdownTrigger>
               <DropdownMenu variant="flat">
-                <DropdownItem onClick={() => onOpenModal(email)}>
+                <DropdownItem onClick={() => onOpenModal(weight)}>
                   <span>View</span>
                 </DropdownItem>
                 <DropdownItem
                   onClick={() =>
-                    router.push(`${adminPaths.emails}/${email.id}`)
+                    router.push(`${adminPaths.weights}/${weight.id}`)
                   }
                 >
                   <span>Edit</span>
@@ -72,7 +86,7 @@ export const RenderCell = ({
                 <DropdownItem
                   color="danger"
                   onClick={() => {
-                    onOpenDeleteModal(email);
+                    onOpenDeleteModal(weight);
                   }}
                 >
                   <span>Delete</span>

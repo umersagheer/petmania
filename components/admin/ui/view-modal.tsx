@@ -13,12 +13,14 @@ type ViewModalProps = {
   children: React.ReactNode;
   title: string;
   onClose: () => void;
+  isProduct?: boolean;
 };
 
 export default function ViewModal({
   children,
   title,
   onClose,
+  isProduct,
 }: ViewModalProps) {
   const { isOpen } = useDisclosure({ defaultOpen: true });
   const [isMounted, setIsMounted] = useState(false);
@@ -31,6 +33,8 @@ export default function ViewModal({
   return (
     <>
       <Modal
+        scrollBehavior="outside"
+        size={isProduct ? "5xl" : "md"}
         isOpen={isOpen}
         onOpenChange={(isOpen) => !isOpen && onClose()}
         backdrop="opaque"

@@ -4,7 +4,8 @@ import { revalidatePath } from "next/cache";
 import * as yup from "yup";
 
 import { prisma } from "@/libs/prisma";
-import { testimonialSchema } from "@/validations/server/admin-validations";
+import { testimonialSchema } from "@/validations/server/admin-validations.server";
+import { Prisma } from "@prisma/client";
 
 export async function POST(req: Request) {
   const session = await getServerSession();
@@ -29,7 +30,12 @@ export async function POST(req: Request) {
     revalidatePath("/");
     return NextResponse.json(testimonial);
   } catch (error) {
-    if (error instanceof yup.ValidationError) {
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2002"
+    ) {
+      return new NextResponse("Address already exists", { status: 400 });
+    } else if (error instanceof yup.ValidationError) {
       const errors = error.inner.map((e) => ({
         field: e.path,
         message: e.message,

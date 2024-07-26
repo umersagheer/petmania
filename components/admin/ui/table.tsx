@@ -14,8 +14,6 @@ import {
 } from "@nextui-org/react";
 import { useCallback, useMemo, useState } from "react";
 
-import NoDataIllustration from "@/components/icons/undraw_blank_canvas_re_2hwy.svg";
-
 interface Column<TData> {
   key: keyof Omit<TData, "id"> | "actions";
   label: string;

@@ -15,6 +15,7 @@ export default function AboutTabs() {
         title="Testimonials"
         href={adminPaths.testimonials}
       />
+      <Tab key={adminPaths.banners} title="Banners" href={adminPaths.banners} />
     </Tabs>
   );
 }

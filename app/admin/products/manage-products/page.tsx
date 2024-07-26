@@ -2,20 +2,29 @@ import React, { Suspense } from "react";
 import { prisma } from "@/libs/prisma";
 import Await from "@/components/admin/ui/await";
 import Loading from "../../loading";
-import EmailsClient from "./components/emails-client";
+import ProductsClient from "./components/products-client";
 
-const EmailsPage = async () => {
-  const emails = prisma.email.findMany({});
+const ProductsPage = async () => {
+  const products = prisma.product.findMany({
+    include: {
+      images: true,
+      tags: true,
+      deals: true,
+      weights: true,
+    },
+  });
 
   return (
     <div className="">
       <Suspense fallback={<Loading />}>
-        <Await promise={emails}>
-          {(emails) => <>{emails && <EmailsClient emails={emails} />}</>}
+        <Await promise={products}>
+          {(products) => (
+            <>{products && <ProductsClient products={products} />}</>
+          )}
         </Await>
       </Suspense>
     </div>
   );
 };
 
-export default EmailsPage;
+export default ProductsPage;

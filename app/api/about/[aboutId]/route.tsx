@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import * as yup from "yup";
 
 import { prisma } from "@/libs/prisma";
-import { aboutSchema } from "@/validations/server/admin-validations";
+import { aboutSchema } from "@/validations/server/admin-validations.server";
 
 export async function GET(
   req: Request,
@@ -12,7 +12,7 @@ export async function GET(
 ) {
   try {
     if (!params.aboutId) {
-      return new NextResponse("Billboard ID is required", { status: 400 });
+      return new NextResponse("About ID is required", { status: 400 });
     }
 
     const about = await prisma.about.findUnique({
@@ -23,7 +23,7 @@ export async function GET(
 
     return NextResponse.json(about);
   } catch (error) {
-    console.log("[BILLBOARD_GET]", error);
+    console.log("[ABOUT_GET]", error);
   }
 
   return new NextResponse("Internal Server Error", { status: 500 });
@@ -52,7 +52,7 @@ export async function PATCH(
     }
     await aboutSchema.validate(body);
     if (!params.aboutId) {
-      return new NextResponse("Billboard ID is required", { status: 400 });
+      return new NextResponse("about ID is required", { status: 400 });
     }
 
     const about = await prisma.about.updateMany({

@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import * as yup from "yup";
 
 import { prisma } from "@/libs/prisma";
-import { testimonialSchema } from "@/validations/server/admin-validations";
+import { testimonialSchema } from "@/validations/server/admin-validations.server";
 import { deleteImage } from "@/libs/cloudinary-utils";
 import { extractPublicId } from "@/libs/utils";
 

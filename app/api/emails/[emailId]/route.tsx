@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import * as yup from "yup";
 
 import { prisma } from "@/libs/prisma";
-import { emailSchema } from "@/validations/server/admin-validations";
+import { emailSchema } from "@/validations/server/admin-validations.server";
 
 export async function GET(
   req: Request,

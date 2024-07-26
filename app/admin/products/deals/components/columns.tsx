@@ -1,33 +1,32 @@
 import {
   Button,
-  Chip,
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/react";
 
-import { Email } from "@prisma/client";
+import { Deal } from "@prisma/client";
 import { VerticalDotsIcon } from "@/components/icons/verticle-dots";
 import { adminPaths } from "@/config/constants";
 
 export type ColumnsType = {
-  key: keyof Omit<Email, "id"> | "actions";
+  key: keyof Omit<Deal, "id"> | "actions";
   label: string;
 };
 
 type RenderCellProps = {
-  email: Email;
-  columnKey: keyof Email | "actions";
-  onOpenModal: (email: Email) => void;
-  onOpenDeleteModal: (email: Email) => void;
+  deal: Deal;
+  columnKey: keyof Deal | "actions";
+  onOpenModal: (deal: Deal) => void;
+  onOpenDeleteModal: (deal: Deal) => void;
   router: any;
 };
 
 export const columns: ColumnsType[] = [
   {
-    key: "email",
-    label: "Email",
+    key: "name",
+    label: "Deal Name",
   },
   {
     key: "actions",
@@ -36,16 +35,16 @@ export const columns: ColumnsType[] = [
 ];
 
 export const RenderCell = ({
-  email,
+  deal,
   columnKey,
   onOpenModal,
   onOpenDeleteModal,
   router,
 }: RenderCellProps) => {
   const cellValue =
-    email[columnKey as keyof Omit<Email, "createdAt" | "updatedAt">];
+    deal[columnKey as keyof Omit<Deal, "createdAt" | "updatedAt">];
   switch (columnKey) {
-    case "email":
+    case "name":
       return <div>{cellValue}</div>;
 
     case "actions":
@@ -59,20 +58,18 @@ export const RenderCell = ({
                 </Button>
               </DropdownTrigger>
               <DropdownMenu variant="flat">
-                <DropdownItem onClick={() => onOpenModal(email)}>
+                <DropdownItem onClick={() => onOpenModal(deal)}>
                   <span>View</span>
                 </DropdownItem>
                 <DropdownItem
-                  onClick={() =>
-                    router.push(`${adminPaths.emails}/${email.id}`)
-                  }
+                  onClick={() => router.push(`${adminPaths.deals}/${deal.id}`)}
                 >
                   <span>Edit</span>
                 </DropdownItem>
                 <DropdownItem
                   color="danger"
                   onClick={() => {
-                    onOpenDeleteModal(email);
+                    onOpenDeleteModal(deal);
                   }}
                 >
                   <span>Delete</span>

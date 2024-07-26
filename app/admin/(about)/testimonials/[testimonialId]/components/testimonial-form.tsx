@@ -20,7 +20,7 @@ import { Heading } from "@/components/admin/ui/heading";
 import BackArrowIcon from "@/components/icons/back";
 import ImageUpload from "@/components/admin/ui/image-upload";
 import { Testimonial } from "@prisma/client";
-import { testimonialSchema } from "@/validations/client/admin-validations";
+import { testimonialSchema } from "@/validations/client/admin-validations.client";
 import { DeleteIcon } from "@/components/icons/delete";
 import { adminPaths } from "@/config/constants";
 import AlertModal from "@/components/admin/ui/alert-modal";

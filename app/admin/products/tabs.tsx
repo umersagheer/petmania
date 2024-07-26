@@ -12,6 +12,11 @@ export default function ProductTabs() {
       <Tab key={adminPaths.deals} title="Deals" href={adminPaths.deals} />
       <Tab key={adminPaths.tags} title="Tags" href={adminPaths.tags} />
       <Tab key={adminPaths.weights} title="Weights" href={adminPaths.weights} />
+      <Tab
+        key={adminPaths.manageProducts}
+        title="Products"
+        href={adminPaths.manageProducts}
+      />
     </Tabs>
   );
 }

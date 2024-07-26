@@ -12,7 +12,7 @@ import axios from "axios";
 import { Heading } from "@/components/admin/ui/heading";
 import BackArrowIcon from "@/components/icons/back";
 import { Email } from "@prisma/client";
-import { emailSchema } from "@/validations/client/admin-validations";
+import { emailSchema } from "@/validations/client/admin-validations.client";
 import { DeleteIcon } from "@/components/icons/delete";
 import { adminPaths } from "@/config/constants";
 import AlertModal from "@/components/admin/ui/alert-modal";
@@ -65,9 +65,10 @@ const EmailForm = ({ initialData }: EmailFormProps) => {
       router.refresh();
       toast.success(toastMessage);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
+      if (axios.isAxiosError(error) && error.response) {
+        toast.warning(error.response.data);
+      } else if (axios.isAxiosError(error)) {
         const backendErrors = error.response?.data.errors;
-        console.log(error.response?.data);
         if (backendErrors) {
           backendErrors.forEach((err: any) => toast.warning(err.message));
         } else {

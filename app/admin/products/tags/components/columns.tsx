@@ -7,27 +7,27 @@ import {
   DropdownTrigger,
 } from "@nextui-org/react";
 
-import { Email } from "@prisma/client";
+import { Tag } from "@prisma/client";
 import { VerticalDotsIcon } from "@/components/icons/verticle-dots";
 import { adminPaths } from "@/config/constants";
 
 export type ColumnsType = {
-  key: keyof Omit<Email, "id"> | "actions";
+  key: keyof Omit<Tag, "id"> | "actions";
   label: string;
 };
 
 type RenderCellProps = {
-  email: Email;
-  columnKey: keyof Email | "actions";
-  onOpenModal: (email: Email) => void;
-  onOpenDeleteModal: (email: Email) => void;
+  tag: Tag;
+  columnKey: keyof Tag | "actions";
+  onOpenModal: (tag: Tag) => void;
+  onOpenDeleteModal: (tag: Tag) => void;
   router: any;
 };
 
 export const columns: ColumnsType[] = [
   {
-    key: "email",
-    label: "Email",
+    key: "name",
+    label: "Tag Name",
   },
   {
     key: "actions",
@@ -36,16 +36,16 @@ export const columns: ColumnsType[] = [
 ];
 
 export const RenderCell = ({
-  email,
+  tag,
   columnKey,
   onOpenModal,
   onOpenDeleteModal,
   router,
 }: RenderCellProps) => {
   const cellValue =
-    email[columnKey as keyof Omit<Email, "createdAt" | "updatedAt">];
+    tag[columnKey as keyof Omit<Tag, "createdAt" | "updatedAt">];
   switch (columnKey) {
-    case "email":
+    case "name":
       return <div>{cellValue}</div>;
 
     case "actions":
@@ -59,20 +59,18 @@ export const RenderCell = ({
                 </Button>
               </DropdownTrigger>
               <DropdownMenu variant="flat">
-                <DropdownItem onClick={() => onOpenModal(email)}>
+                <DropdownItem onClick={() => onOpenModal(tag)}>
                   <span>View</span>
                 </DropdownItem>
                 <DropdownItem
-                  onClick={() =>
-                    router.push(`${adminPaths.emails}/${email.id}`)
-                  }
+                  onClick={() => router.push(`${adminPaths.tags}/${tag.id}`)}
                 >
                   <span>Edit</span>
                 </DropdownItem>
                 <DropdownItem
                   color="danger"
                   onClick={() => {
-                    onOpenDeleteModal(email);
+                    onOpenDeleteModal(tag);
                   }}
                 >
                   <span>Delete</span>

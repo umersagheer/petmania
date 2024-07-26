@@ -4,9 +4,7 @@ import { revalidatePath } from "next/cache";
 import * as yup from "yup";
 
 import { prisma } from "@/libs/prisma";
-import { numberSchema } from "@/validations/server/admin-validations";
-import { deleteImage } from "@/libs/cloudinary-utils";
-import { extractPublicId } from "@/libs/utils";
+import { numberSchema } from "@/validations/server/admin-validations.server";
 
 export async function GET(
   req: Request,

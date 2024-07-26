@@ -81,7 +81,7 @@ model About {
 
 model Testimonial {
   id          String @id @default(cuid())
-  name        String
+  name        String @unique
   description String
   rating      Float
   image       String
@@ -93,7 +93,7 @@ model Testimonial {
 // Contact ----------------------------------
 model Number {
   id         String  @id @default(cuid())
-  number     String
+  number     String  @unique
   isWhatsapp Boolean @default(false)
 
   createdAt DateTime @default(now())
@@ -102,7 +102,7 @@ model Number {
 
 model Email {
   id    String @id @default(cuid())
-  email String
+  email String @unique
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -110,7 +110,7 @@ model Email {
 
 model Address {
   id          String @id @default(cuid())
-  address     String
+  address     String @unique
   addressLink String
 
   createdAt DateTime @default(now())
@@ -131,6 +131,7 @@ model Weight {
   id      String    @id @default(cuid())
   value   String
   unit    String
+  price   String
   Product Product[]
 
   createdAt DateTime @default(now())
@@ -139,7 +140,7 @@ model Weight {
 
 model Tag {
   id      String    @id @default(cuid())
-  name    String
+  name    String    @unique
   Product Product[]
 
   createdAt DateTime @default(now())
@@ -158,10 +159,9 @@ model Image {
 
 model Product {
   id                 String   @id @default(cuid())
-  title              String
-  price              String
+  title              String   @unique
   type               Int
-  decription         String
+  description        String
   ingredients        String
   calorieContent     String
   guaranteedAnalysis String
@@ -170,16 +170,19 @@ model Product {
   weights            Weight[]
   tags               Tag[]
   deals              Deal[]
+  banner             Banner?  @relation(fields: [bannerId], references: [id])
+  bannerId           String?  @unique
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-// Home -----------------------------------
-// model banner {
-//   id          String @id @default(cuid())
-//   title       String
-//   description String
-//   link        String
-//   image       String
-// }
+model Banner {
+  id      String   @id @default(cuid())
+  title   String   @unique
+  image   String
+  product Product?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

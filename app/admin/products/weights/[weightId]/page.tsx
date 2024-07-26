@@ -1,20 +1,20 @@
 import React from "react";
 import { prisma } from "@/libs/prisma";
-import EmailForm from "./components/email-form";
+import WeightForm from "./components/weight-form";
 
 type Props = {
   params: {
-    emailId: string;
+    weightId: string;
   };
 };
 
-const EmailPage = async ({ params }: Props) => {
-  const emails = await prisma.email.findUnique({
+const WeightPage = async ({ params }: Props) => {
+  const weights = await prisma.weight.findUnique({
     where: {
-      id: params.emailId,
+      id: params.weightId,
     },
   });
-  return <EmailForm initialData={emails} />;
+  return <WeightForm initialData={weights} />;
 };
 
-export default EmailPage;
+export default WeightPage;

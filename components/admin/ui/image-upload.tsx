@@ -90,7 +90,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
       </div>
 
       <CldUploadWidget
-        onSuccess={onUpload}
+        onUpload={onUpload}
         uploadPreset="petMania-uploads"
         options={{
           sources: ["local", "url", "unsplash"],

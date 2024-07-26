@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth";
 import { prisma } from "@/libs/prisma";
 import * as yup from "yup";
 import { revalidatePath } from "next/cache";
-import { aboutSchema } from "@/validations/server/admin-validations";
+import { aboutSchema } from "@/validations/server/admin-validations.server";
 
 export async function POST(req: Request) {
   const session = await getServerSession();

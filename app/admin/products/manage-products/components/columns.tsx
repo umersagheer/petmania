@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Button,
   Chip,
   Dropdown,
@@ -7,27 +8,38 @@ import {
   DropdownTrigger,
 } from "@nextui-org/react";
 
-import { Email } from "@prisma/client";
+import { Deal, Image, Product, Tag, Weight } from "@prisma/client";
 import { VerticalDotsIcon } from "@/components/icons/verticle-dots";
 import { adminPaths } from "@/config/constants";
+import { BriefcaseMedicalIcon, CatIcon, DogIcon, TagIcon } from "lucide-react";
+import { foodTypes } from "@/config/food-types";
 
 export type ColumnsType = {
-  key: keyof Omit<Email, "id"> | "actions";
+  key: keyof Omit<Product, "id"> | "actions";
   label: string;
 };
-
 type RenderCellProps = {
-  email: Email;
-  columnKey: keyof Email | "actions";
-  onOpenModal: (email: Email) => void;
-  onOpenDeleteModal: (email: Email) => void;
+  product: Product & {
+    images: Image[];
+    tags: Tag[];
+    deals: Deal[];
+    weights: Weight[];
+  };
+  columnKey: string;
+  onOpenModal: (product: Product) => void;
+  onOpenDeleteModal: (product: Product) => void;
   router: any;
 };
 
 export const columns: ColumnsType[] = [
   {
-    key: "email",
-    label: "Email",
+    key: "title",
+    label: "Product Title",
+  },
+
+  {
+    key: "type",
+    label: "Type",
   },
   {
     key: "actions",
@@ -36,17 +48,53 @@ export const columns: ColumnsType[] = [
 ];
 
 export const RenderCell = ({
-  email,
+  product,
   columnKey,
   onOpenModal,
   onOpenDeleteModal,
   router,
 }: RenderCellProps) => {
   const cellValue =
-    email[columnKey as keyof Omit<Email, "createdAt" | "updatedAt">];
+    product[columnKey as keyof Omit<Product, "createdAt" | "updatedAt">];
+
   switch (columnKey) {
-    case "email":
-      return <div>{cellValue}</div>;
+    case "url":
+      const url = product.images?.[0]?.url || "N/A";
+      return <Avatar src={url as string} radius="md" isBordered />;
+    case "title":
+      return <div className="max-w-32 line-clamp-2">{cellValue}</div>;
+
+    case "type":
+      if (cellValue === parseInt(foodTypes.dog)) {
+        return (
+          <Chip
+            color="warning"
+            variant="flat"
+            startContent={<DogIcon size={16} />}
+          >
+            Dog
+          </Chip>
+        );
+      } else if (cellValue === parseInt(foodTypes.cat)) {
+        return (
+          <Chip
+            color="secondary"
+            variant="flat"
+            startContent={<CatIcon size={16} />}
+          >
+            Cat
+          </Chip>
+        );
+      } else if (cellValue === parseInt(foodTypes.medicated))
+        return (
+          <Chip
+            color="success"
+            variant="flat"
+            startContent={<BriefcaseMedicalIcon size={16} />}
+          >
+            Medicated
+          </Chip>
+        );
 
     case "actions":
       return (
@@ -59,12 +107,12 @@ export const RenderCell = ({
                 </Button>
               </DropdownTrigger>
               <DropdownMenu variant="flat">
-                <DropdownItem onClick={() => onOpenModal(email)}>
+                <DropdownItem onClick={() => onOpenModal(product)}>
                   <span>View</span>
                 </DropdownItem>
                 <DropdownItem
                   onClick={() =>
-                    router.push(`${adminPaths.emails}/${email.id}`)
+                    router.push(`${adminPaths.manageProducts}/${product.id}`)
                   }
                 >
                   <span>Edit</span>
@@ -72,7 +120,7 @@ export const RenderCell = ({
                 <DropdownItem
                   color="danger"
                   onClick={() => {
-                    onOpenDeleteModal(email);
+                    onOpenDeleteModal(product);
                   }}
                 >
                   <span>Delete</span>

@@ -1,20 +1,20 @@
 import React from "react";
 import { prisma } from "@/libs/prisma";
-import EmailForm from "./components/email-form";
+import TagForm from "./components/tag-form";
 
 type Props = {
   params: {
-    emailId: string;
+    tagId: string;
   };
 };
 
-const EmailPage = async ({ params }: Props) => {
-  const emails = await prisma.email.findUnique({
+const TagPage = async ({ params }: Props) => {
+  const tags = await prisma.tag.findUnique({
     where: {
-      id: params.emailId,
+      id: params.tagId,
     },
   });
-  return <EmailForm initialData={emails} />;
+  return <TagForm initialData={tags} />;
 };
 
-export default EmailPage;
+export default TagPage;

@@ -19,7 +19,7 @@ import ImageUpload from "@/components/admin/ui/image-upload";
 import { toast } from "sonner";
 import { About } from "@prisma/client";
 import axios from "axios";
-import { aboutSchema } from "@/validations/client/admin-validations";
+import { aboutSchema } from "@/validations/client/admin-validations.client";
 
 type AboutFormProps = {
   initialData: About | null;

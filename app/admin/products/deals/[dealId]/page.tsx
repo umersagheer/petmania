@@ -1,20 +1,20 @@
 import React from "react";
 import { prisma } from "@/libs/prisma";
-import EmailForm from "./components/email-form";
+import DealForm from "./components/deal-form";
 
 type Props = {
   params: {
-    emailId: string;
+    dealId: string;
   };
 };
 
-const EmailPage = async ({ params }: Props) => {
-  const emails = await prisma.email.findUnique({
+const DealPage = async ({ params }: Props) => {
+  const deals = await prisma.deal.findUnique({
     where: {
-      id: params.emailId,
+      id: params.dealId,
     },
   });
-  return <EmailForm initialData={emails} />;
+  return <DealForm initialData={deals} />;
 };
 
-export default EmailPage;
+export default DealPage;

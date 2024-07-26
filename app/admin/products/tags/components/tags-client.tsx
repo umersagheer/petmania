@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@nextui-org/react";
-import { Email } from "@prisma/client";
+import { Tag } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import axios from "axios";
@@ -16,22 +16,22 @@ import ViewModal from "@/components/admin/ui/view-modal";
 import ModalContent from "./modal-content";
 import { columns, RenderCell } from "./columns";
 
-type EmailsClientProps = {
-  emails: Email[] | null;
+type TagsClientProps = {
+  tags: Tag[] | null;
 };
 
-const EmailsClient = ({ emails }: EmailsClientProps) => {
+const TagsClient = ({ tags }: TagsClientProps) => {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  const [data, setData] = useState<Email | null>(null);
+  const [data, setData] = useState<Tag | null>(null);
 
   const [loading, setLoading] = useState(false);
 
-  const handleOpenModal = (email: Email) => {
+  const handleOpenModal = (tag: Tag) => {
     setIsModalOpen(true);
-    setData(email);
+    setData(tag);
   };
 
   const handleCloseModal = () => {
@@ -39,9 +39,9 @@ const EmailsClient = ({ emails }: EmailsClientProps) => {
     setData(null);
   };
 
-  const handleOpenDeleteModal = (email: Email) => {
+  const handleOpenDeleteModal = (tag: Tag) => {
     setIsDeleteModalOpen(true);
-    setData(email);
+    setData(tag);
   };
 
   const handleCloseDeleteModal = () => {
@@ -52,9 +52,9 @@ const EmailsClient = ({ emails }: EmailsClientProps) => {
   const onDelete = async (id: string) => {
     try {
       setLoading(true);
-      await axios.delete(`/api/emails/${id}`);
+      await axios.delete(`/api/tags/${id}`);
       router.refresh();
-      toast.success("Email deleted successfully");
+      toast.success("Tag deleted successfully");
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         toast.warning(error.response.data);
@@ -68,13 +68,13 @@ const EmailsClient = ({ emails }: EmailsClientProps) => {
   return (
     <div>
       <div className="flex justify-between items-center">
-        <Heading title="Emails" description={`Manage ${brand.name} Emails`} />
+        <Heading title="Tags" description={`Manage ${brand.name} Tags`} />
         <Button
           color="primary"
           variant="flat"
           startContent={<PlusIcon width={16} height={16} />}
           onClick={() => {
-            router.push(`${adminPaths.emails}/add`);
+            router.push(`${adminPaths.tags}/add`);
           }}
         >
           Add
@@ -82,14 +82,14 @@ const EmailsClient = ({ emails }: EmailsClientProps) => {
       </div>
 
       <div className="my-2 md:mx-5">
-        {emails && (
-          <DataTable<Email>
-            searchKey="email"
-            data={emails}
+        {tags && (
+          <DataTable<Tag>
+            searchKey="name"
+            data={tags}
             columns={columns}
             renderCell={(item, columnKey) =>
               RenderCell({
-                email: item,
+                tag: item,
                 columnKey,
                 onOpenModal: handleOpenModal,
                 onOpenDeleteModal: handleOpenDeleteModal,
@@ -102,7 +102,7 @@ const EmailsClient = ({ emails }: EmailsClientProps) => {
 
       {isDeleteModalOpen && (
         <AlertModal
-          title={"Delete Email"}
+          title={"Delete Tag"}
           onClose={handleCloseDeleteModal}
           onDelete={onDelete}
           loading={loading}
@@ -111,7 +111,7 @@ const EmailsClient = ({ emails }: EmailsClientProps) => {
       )}
 
       {isModalOpen && (
-        <ViewModal title={"Email"} onClose={handleCloseModal}>
+        <ViewModal title={"Tag"} onClose={handleCloseModal}>
           <ModalContent data={data} />
         </ViewModal>
       )}
@@ -119,4 +119,4 @@ const EmailsClient = ({ emails }: EmailsClientProps) => {
   );
 };
 
-export default EmailsClient;
+export default TagsClient;

@@ -7,6 +7,7 @@ import NextUiProvider from "@/providers/nextui-provider";
 import AuthProvider from "@/providers/auth-provider";
 import MainNavbar from "@/components/root/navbar";
 import Footer from "@/components/root/footer";
+import ErrorBoundary from "@/components/error-boundary";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -27,7 +28,9 @@ export default function AuthLayout({
         <AuthProvider>
           <NextUiProvider>
             <MainNavbar />
-            <main className="px-4 md:px-8">{children}</main>
+            <ErrorBoundary>
+              <main className="px-4 md:px-8">{children}</main>
+            </ErrorBoundary>
             <Footer />
             <Toaster position="bottom-right" richColors />
           </NextUiProvider>

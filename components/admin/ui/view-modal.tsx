@@ -37,7 +37,7 @@ export default function ViewModal({
         size={isProduct ? "5xl" : "md"}
         isOpen={isOpen}
         onOpenChange={(isOpen) => !isOpen && onClose()}
-        backdrop="opaque"
+        backdrop="blur"
         hideCloseButton
         classNames={{
           backdrop:

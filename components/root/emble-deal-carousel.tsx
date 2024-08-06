@@ -37,14 +37,14 @@ type EmblaDealCarouselProps = {
 export default function EmblaDealCarousel({ slides }: EmblaDealCarouselProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel();
   const router = useRouter();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState<string | null>(null);
 
   const handleCloseModal = () => {
-    setIsModalOpen(false);
+    setIsModalOpen(null);
   };
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
+  const handleOpenModal = (id: string) => {
+    setIsModalOpen(id);
   };
   const scrollPrev = useCallback(() => {
     if (emblaApi) emblaApi.scrollPrev();
@@ -55,11 +55,11 @@ export default function EmblaDealCarousel({ slides }: EmblaDealCarouselProps) {
   }, [emblaApi]);
 
   return (
-    <div className="w-full md:py-12 md:px-8 embla" ref={emblaRef}>
+    <div className="w-full md:py-4 md:px-8 embla" ref={emblaRef}>
       <div className="embla__container">
         {slides.map((slide) => (
           <div className="embla__slide" key={slide.id}>
-            {isModalOpen && (
+            {isModalOpen === slide.id && (
               <ViewModal title={"Product"} onClose={handleCloseModal} isProduct>
                 <ProductModalContent data={slide} />
               </ViewModal>
@@ -104,7 +104,7 @@ export default function EmblaDealCarousel({ slides }: EmblaDealCarouselProps) {
                         as={Chip}
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleOpenModal();
+                          handleOpenModal(slide.id);
                         }}
                         size="sm"
                         color="primary"

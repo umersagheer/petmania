@@ -152,7 +152,7 @@ export default function ProductClient({
 
       {/* Related Products */}
       <div className="my-8">
-        <Heading title="Related Products" description="" />
+        <Heading title="You may also like" description="" />
         <RelatedProducts products={relatedProducts} />
       </div>
     </>

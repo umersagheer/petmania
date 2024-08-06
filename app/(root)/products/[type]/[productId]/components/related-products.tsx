@@ -32,14 +32,14 @@ type RelatedProductsProps = {
 
 export default function RelatedProducts({ products }: RelatedProductsProps) {
   const router = useRouter();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState<string | null>(null);
 
   const handleCloseModal = () => {
-    setIsModalOpen(false);
+    setIsModalOpen(null);
   };
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
+  const handleOpenModal = (id: string) => {
+    setIsModalOpen(id);
   };
   return (
     <div className="">
@@ -49,7 +49,7 @@ export default function RelatedProducts({ products }: RelatedProductsProps) {
       >
         {products.map((product) => (
           <div className="basis-1/3" key={product.id}>
-            {isModalOpen && (
+            {isModalOpen === product.id && (
               <ViewModal title={"Product"} onClose={handleCloseModal} isProduct>
                 <ProductModalContent data={product} />
               </ViewModal>
@@ -96,7 +96,7 @@ export default function RelatedProducts({ products }: RelatedProductsProps) {
                         as={Chip}
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleOpenModal();
+                          handleOpenModal(product.id);
                         }}
                         size="sm"
                         color="primary"

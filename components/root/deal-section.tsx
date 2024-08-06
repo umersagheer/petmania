@@ -2,6 +2,7 @@ import { EmblaOptionsType } from "embla-carousel";
 import React from "react";
 import EmblaDealCarousel from "./emble-deal-carousel";
 import { Deal, Tag, Weight } from "@prisma/client";
+import { Heading } from "../admin/ui/heading";
 
 type Image = {
   id: string;
@@ -49,9 +50,7 @@ export default function DealSection({ deals }: DealSectionProps) {
           key={deal.id}
           className="flex flex-col items-start justify-center w-full gap-4 shrink-0"
         >
-          <h3 className="mt-4 text-xl font-bold md:text-3xl md:mt-8">
-            {deal.name}
-          </h3>
+          <Heading title={deal.name} description="" />
           <EmblaDealCarousel slides={deal.Product} />
         </div>
       ))}

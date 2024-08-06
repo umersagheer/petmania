@@ -1,5 +1,5 @@
 export const brand = {
-  name: "Pet Mania",
+  name: "Pet Shop",
   logo: "/logo.png",
   favicon: "/logo.png",
   alt: "Pet mania logo",
@@ -9,8 +9,8 @@ export const adminPaths = {
   dashboard: "/admin/dashboard",
   products: "/admin/products",
   about: "/admin/about",
-  testimonials: "/admin/testimonials",
-  banners: "/admin/banners",
+  testimonials: "/admin/about/testimonials",
+  banners: "/admin/about/banners",
   contact: "/admin/contact",
   numbers: "/admin/contact/numbers",
   emails: "/admin/contact/emails",

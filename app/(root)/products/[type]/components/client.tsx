@@ -40,18 +40,18 @@ type Props = {
 
 export default function ProductTypeClient({ data, type, params }: Props) {
   const router = useRouter();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState<string | null>(null);
 
   const dog = type === parseInt(foodTypes.dog);
   const cat = type === parseInt(foodTypes.cat);
   const medicated = type === parseInt(foodTypes.medicated);
 
   const handleCloseModal = () => {
-    setIsModalOpen(false);
+    setIsModalOpen(null);
   };
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
+  const handleOpenModal = (id: string) => {
+    setIsModalOpen(id);
   };
 
   return (
@@ -72,7 +72,7 @@ export default function ProductTypeClient({ data, type, params }: Props) {
       <div className="flex flex-wrap items-center justify-center gap-5 md:gap-8">
         {data?.map((product) => (
           <React.Fragment key={product.id}>
-            {isModalOpen && (
+            {isModalOpen === product.id && (
               <ViewModal title={"Product"} onClose={handleCloseModal} isProduct>
                 <ModalContent data={product} />
               </ViewModal>
@@ -119,7 +119,7 @@ export default function ProductTypeClient({ data, type, params }: Props) {
                         as={Chip}
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleOpenModal();
+                          handleOpenModal(product.id);
                         }}
                         size="sm"
                         color="primary"

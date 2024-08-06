@@ -16,17 +16,10 @@ export default function AboutClient({ data }: AboutClientProps) {
       description: data.aboutDescription,
       content: (
         <Image
-          src={data.aboutHeroImg}
+          src={data.aboutImg}
           alt="about"
           className="h-full object-cover"
         />
-      ),
-    },
-    {
-      title: "Goal",
-      description: data.goal,
-      content: (
-        <Image src={data.aboutImg} alt="goal" className="h-full object-cover" />
       ),
     },
     {
@@ -36,6 +29,17 @@ export default function AboutClient({ data }: AboutClientProps) {
         <Image
           src={data.descriptionImg}
           alt="vision"
+          className="h-full object-cover"
+        />
+      ),
+    },
+    {
+      title: "Goal",
+      description: data.goal,
+      content: (
+        <Image
+          src={data.aboutHeroImg}
+          alt="goal"
           className="h-full object-cover"
         />
       ),

@@ -1,3 +1,5 @@
+import { PawPrintIcon } from "lucide-react";
+
 interface HaeadingProps {
   title: string;
   description: string;
@@ -6,8 +8,9 @@ interface HaeadingProps {
 export const Heading: React.FC<HaeadingProps> = ({ title, description }) => {
   return (
     <div className="my-4">
-      <h2 className="text-2xl md:text-4xl font-bold leading-snug text-foreground">
+      <h2 className="text-2xl md:text-4xl font-bold leading-snug text-foreground flex gap-2 items-center">
         {title}
+        <PawPrintIcon className="size-10" />
       </h2>
       <p className="text-small text-foreground mt-1 line-clamp-4">
         {description}

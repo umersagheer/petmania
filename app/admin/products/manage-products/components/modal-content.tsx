@@ -1,4 +1,5 @@
 import { foodTypes } from "@/config/food-types";
+import { formatCurrency } from "@/libs/utils";
 import { Chip, Image, Tab, Tabs } from "@nextui-org/react";
 import {
   BriefcaseMedicalIcon,
@@ -71,25 +72,35 @@ export default function ModalContent({ data }: ModalContentProps) {
         <p className="text-xs line-clamp-4">{data.description}</p>
         {data.weights.length > 0 && (
           <div className="flex flex-col gap-2">
-            <h3 className="text-md font-semibold">Weights</h3>
-            <div className="flex gap-2 justify-start items-center flex-wrap">
+            <h3 className="font-semibold text-md">Available Weights</h3>
+            <div className="flex flex-wrap items-center justify-start gap-2">
               {data.weights.map((weight: any) => (
                 <Chip
-                  size="sm"
+                  size="md"
                   variant="flat"
                   color="primary"
                   key={weight.id}
-                  endContent={<WeightIcon size={12} />}
+                  startContent={<WeightIcon size={12} />}
+                  className="[&>span]:!pr-0 !pr-0"
                 >
                   <p>
-                    {weight.value} {weight.unit} {weight.price} PKR
+                    {weight.value} {weight.unit}{" "}
+                    <Chip
+                      color="primary"
+                      variant="solid"
+                      size="sm"
+                      className="!mr-0"
+                    >
+                      <span className="font-semibold">
+                        {formatCurrency(weight.price)}
+                      </span>
+                    </Chip>
                   </p>
                 </Chip>
               ))}
             </div>
           </div>
         )}
-
         {data.tags.length > 0 && (
           <div className="flex flex-col gap-2">
             <h3 className="text-md font-semibold">Tags</h3>

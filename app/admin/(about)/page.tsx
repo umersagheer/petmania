@@ -1,7 +1,8 @@
 import { redirect } from "next/navigation";
+import { adminPaths } from "@/config/constants";
 
 const AboutPage = async () => {
-  redirect("/admin/about");
+  return redirect(adminPaths.about);
 };
 
 export default AboutPage;

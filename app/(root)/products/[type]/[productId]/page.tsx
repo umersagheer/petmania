@@ -20,7 +20,7 @@ export async function generateStaticParams(): Promise<
   try {
     products = await prisma.product.findMany();
   } catch (error) {
-    console.error("Error fetching Blog page data:", error);
+    console.error("Error fetching product data:", error);
     return [];
   } finally {
     await prisma.$disconnect();
@@ -29,47 +29,58 @@ export async function generateStaticParams(): Promise<
     productId: product.id,
   }));
 }
+
 export default async function ProductPage({ params }: ProductPageProps) {
-  const product = await prisma.product.findUnique({
-    where: {
-      id: params.productId,
-    },
-    include: {
-      images: true,
-      weights: true,
-      tags: true,
-    },
-  });
+  const { productId } = params;
 
-  const productWithTags = await prisma.product.findUnique({
-    where: { id: params.productId },
-    include: {
-      tags: true,
-    },
-  });
+  try {
+    const productPromise = prisma.product.findUnique({
+      where: {
+        id: productId,
+      },
+      include: {
+        images: true,
+        weights: true,
+        tags: true,
+      },
+    });
 
-  if (!productWithTags) {
-    throw new Error(`Product with ID ${params.productId} not found`);
-  }
+    const productWithTagsPromise = prisma.product.findUnique({
+      where: { id: productId },
+      include: {
+        tags: true,
+      },
+    });
 
-  const tagIds = productWithTags.tags.map((tag) => tag.id);
+    const [product, productWithTags] = await Promise.all([
+      productPromise,
+      productWithTagsPromise,
+    ]);
 
-  const relatedProducts = await prisma.product.findMany({
-    where: {
-      AND: [
-        { id: { not: params.productId } },
-        { tags: { some: { id: { in: tagIds } } } },
-      ],
-    },
-    include: {
-      images: true,
-      weights: true,
-    },
-  });
+    if (!product || !productWithTags) {
+      return <NotFound />;
+    }
 
-  if (!product) {
+    const tagIds = productWithTags.tags.map((tag) => tag.id);
+
+    const relatedProducts = await prisma.product.findMany({
+      where: {
+        AND: [
+          { id: { not: productId } },
+          { tags: { some: { id: { in: tagIds } } } },
+        ],
+      },
+      include: {
+        images: true,
+        weights: true,
+      },
+    });
+
+    return <ProductClient data={product} relatedProducts={relatedProducts} />;
+  } catch (error) {
+    console.error("Error fetching product data:", error);
     return <NotFound />;
+  } finally {
+    await prisma.$disconnect();
   }
-
-  return <ProductClient data={product} relatedProducts={relatedProducts} />;
 }

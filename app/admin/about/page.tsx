@@ -1,8 +1,8 @@
 import React, { Suspense } from "react";
 import { prisma } from "@/libs/prisma";
 import Await from "@/components/admin/ui/await";
-import Loading from "../../loading";
 import AboutClient from "./components/about-client";
+import Loading from "../loading";
 
 const AboutPage = async () => {
   const about = prisma.about.findMany();

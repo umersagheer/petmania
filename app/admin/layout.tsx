@@ -7,6 +7,7 @@ import NextUiProvider from "@/providers/nextui-provider";
 import AuthProvider from "@/providers/auth-provider";
 import AdminNavbar from "@/components/admin/layout/navbar";
 import { BackgroundIllustration } from "@/components/icons/bg";
+import ErrorBoundary from "@/components/error-boundary";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -31,7 +32,7 @@ export default function AdminLayout({
               <div className="fixed inset-0 overflow-hidden">
                 <BackgroundIllustration size={100} />
               </div>
-              {children}
+              <ErrorBoundary>{children}</ErrorBoundary>
             </main>
             <Toaster position="top-right" richColors closeButton />
           </NextUiProvider>

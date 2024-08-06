@@ -74,7 +74,6 @@ export const productSchema = z.object({
 });
 
 export const bannerSchema = z.object({
-  title: z.string().min(1, { message: "Name must be filled" }),
   image: z.string().min(1, { message: "Image must be provided" }),
   productId: z.string().optional(),
 });

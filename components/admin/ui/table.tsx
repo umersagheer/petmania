@@ -23,7 +23,7 @@ interface DataTableProps<TData> {
   columns: Column<TData>[];
   data: TData[];
   renderCell: (item: TData, columnKey: Column<TData>["key"]) => React.ReactNode;
-  searchKey: keyof TData;
+  searchKey?: keyof TData;
 }
 export default function DataTable<TData>({
   columns,
@@ -40,12 +40,14 @@ export default function DataTable<TData>({
   const filteredItems = useMemo(() => {
     let filteredData = [...data];
 
-    if (hasSearchFilter) {
-      filteredData = filteredData.filter((data) =>
-        String(data[searchKey])
-          .toLowerCase()
-          .includes(filterValue.toLowerCase())
-      );
+    if (searchKey) {
+      if (hasSearchFilter) {
+        filteredData = filteredData.filter((data) =>
+          String(data[searchKey])
+            .toLowerCase()
+            .includes(filterValue.toLowerCase())
+        );
+      }
     }
 
     return filteredData;
@@ -81,15 +83,17 @@ export default function DataTable<TData>({
         aria-label="Table to display data"
         isStriped
         topContent={
-          <Input
-            isClearable
-            className="w-full sm:max-w-[30%]"
-            placeholder={`Search by ${String(searchKey && searchKey)}...`}
-            startContent={<SearchIcon />}
-            value={filterValue}
-            onClear={() => onClear()}
-            onValueChange={onSearchChange}
-          />
+          searchKey && (
+            <Input
+              isClearable
+              className="w-full sm:max-w-[30%]"
+              placeholder={`Search by ${String(searchKey && searchKey)}...`}
+              startContent={<SearchIcon />}
+              value={filterValue}
+              onClear={() => onClear()}
+              onValueChange={onSearchChange}
+            />
+          )
         }
         bottomContentPlacement="outside"
         bottomContent={

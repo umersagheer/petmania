@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "cockroachdb"
   url      = env("DATABASE_URL")
 }
 
@@ -179,7 +179,6 @@ model Product {
 
 model Banner {
   id      String   @id @default(cuid())
-  title   String   @unique
   image   String
   product Product?
 

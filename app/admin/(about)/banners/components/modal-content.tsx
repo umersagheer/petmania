@@ -10,7 +10,6 @@ export default function ModalContent({ data }: ModalContentProps) {
   return (
     <div className="flex flex-col gap-2 justify-center items-center">
       <Avatar src={data.image} className="w-32 h-32 text-large" radius="md" />
-      <p>{data.title}</p>
       <h3 className="text-lg font-semibold">Product</h3>
       {data.product ? (
         <Chip

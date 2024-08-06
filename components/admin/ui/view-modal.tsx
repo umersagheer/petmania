@@ -50,7 +50,7 @@ export default function ViewModal({
               <ModalHeader className="flex flex-col gap-1">{title}</ModalHeader>
               <ModalBody>{children}</ModalBody>
               <ModalFooter>
-                <Button color="success" variant="light" onPress={onClose}>
+                <Button color="success" variant="flat" onPress={onClose}>
                   Done
                 </Button>
               </ModalFooter>

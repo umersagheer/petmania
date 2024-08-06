@@ -60,7 +60,6 @@ const BannerForm = ({ initialData, products }: BannerFormProps) => {
   } = useForm({
     resolver: zodResolver(bannerSchema),
     defaultValues: {
-      title: initialData?.title || "",
       image: initialData?.image || "",
       productId: initialData?.product?.id || "",
     },
@@ -220,21 +219,6 @@ const BannerForm = ({ initialData, products }: BannerFormProps) => {
                 </>
               )}
             </div>
-
-            <Controller
-              name="title"
-              control={control}
-              render={({ field }) => (
-                <Input
-                  label="Banner Title"
-                  type="text"
-                  size="sm"
-                  {...field}
-                  isInvalid={Boolean(errors.title)}
-                  errorMessage={errors.title?.message}
-                />
-              )}
-            />
 
             <Controller
               name="productId"

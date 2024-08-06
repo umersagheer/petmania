@@ -73,7 +73,6 @@ export const productSchema = yup.object().shape({
 });
 
 export const bannerSchema = yup.object().shape({
-  title: yup.string().required("Name must be filled"),
   image: yup.string().required("Image must be provided"),
   productId: yup.string().optional(),
 });

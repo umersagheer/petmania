@@ -194,6 +194,7 @@ const WeightForm = ({ initialData }: WeightFormProps) => {
                   type="text"
                   size="sm"
                   {...field}
+                  description="Dont put commas"
                   isInvalid={Boolean(errors.price)}
                   errorMessage={errors.price?.message}
                 />

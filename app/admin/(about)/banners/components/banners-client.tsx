@@ -97,7 +97,6 @@ const BannersClient = ({ banners }: BannersClientProps) => {
               } | null;
             }
           >
-            searchKey="title"
             data={banners}
             columns={columns}
             renderCell={(item, columnKey) =>

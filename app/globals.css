@@ -3,12 +3,51 @@
 @tailwind utilities;
 
 /* Hide scrollbar for Chrome, Safari and Opera */
-.hide-scrollbar::-webkit-scrollbar {
-  display: none;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: all ease-in-out;
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow: overlay;
+}
+
+*::-webkit-scrollbar {
+  width: 5px;
+}
+
+*::-webkit-scrollbar-track {
+  background-color: #cce2fc !important;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #006fee;
+  border-radius: 10px;
+  outline: 1px solid #006fee;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #333;
 }
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .hide-scrollbar {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+}
+.embla {
+  overflow: hidden;
+}
+.embla__container {
+  display: flex;
+  padding: 10px 0;
+  gap: 2rem;
+}
+.embla__slide {
+  flex: 0 0 auto;
+  min-width: 0;
+  max-width: 100%;
 }

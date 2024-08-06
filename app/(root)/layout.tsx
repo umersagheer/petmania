@@ -5,6 +5,8 @@ import { Toaster } from "sonner";
 
 import NextUiProvider from "@/providers/nextui-provider";
 import AuthProvider from "@/providers/auth-provider";
+import MainNavbar from "@/components/root/navbar";
+import Footer from "@/components/root/footer";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -24,7 +26,9 @@ export default function AuthLayout({
       <body className={montserrat.className}>
         <AuthProvider>
           <NextUiProvider>
-            {children}
+            <MainNavbar />
+            <main className="px-4 md:px-8">{children}</main>
+            <Footer />
             <Toaster position="bottom-right" richColors />
           </NextUiProvider>
         </AuthProvider>

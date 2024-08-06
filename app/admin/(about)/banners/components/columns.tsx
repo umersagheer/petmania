@@ -37,10 +37,6 @@ export const columns: ColumnsType[] = [
     label: "Banner Image",
   },
   {
-    key: "title",
-    label: "Title",
-  },
-  {
     key: "actions",
     label: "Actions",
   },
@@ -66,9 +62,6 @@ export const RenderCell = ({
           isFocusable={false}
         />
       );
-
-    case "title":
-      return <div>{banner && cellValue}</div>;
 
     case "actions":
       return (

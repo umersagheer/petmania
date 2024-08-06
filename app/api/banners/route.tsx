@@ -12,7 +12,7 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    const { title, image, productId } = body;
+    const { image, productId } = body;
 
     if (!session) {
       return new NextResponse("Unauthenticated", { status: 403 });
@@ -21,7 +21,6 @@ export async function POST(req: Request) {
 
     const banner = await prisma.banner.create({
       data: {
-        title,
         image,
         ...(productId && {
           product: {

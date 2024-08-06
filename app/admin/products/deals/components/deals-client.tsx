@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@nextui-org/react";
-import { Deal } from "@prisma/client";
+import { Deal, Product } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import axios from "axios";
@@ -17,7 +17,18 @@ import ModalContent from "./modal-content";
 import { columns, RenderCell } from "./columns";
 
 type DealsClientProps = {
-  deals: Deal[] | null;
+  deals:
+    | {
+        id: string;
+        name: string;
+        createdAt: Date;
+        updatedAt: Date;
+        Product: {
+          id: string;
+          title: string;
+        }[];
+      }[]
+    | null;
 };
 
 const DealsClient = ({ deals }: DealsClientProps) => {
@@ -29,7 +40,7 @@ const DealsClient = ({ deals }: DealsClientProps) => {
 
   const [loading, setLoading] = useState(false);
 
-  const handleOpenModal = (deal: Deal) => {
+  const handleOpenModal = (deal: any) => {
     setIsModalOpen(true);
     setData(deal);
   };
@@ -39,7 +50,7 @@ const DealsClient = ({ deals }: DealsClientProps) => {
     setData(null);
   };
 
-  const handleOpenDeleteModal = (deal: Deal) => {
+  const handleOpenDeleteModal = (deal: any) => {
     setIsDeleteModalOpen(true);
     setData(deal);
   };
@@ -67,7 +78,7 @@ const DealsClient = ({ deals }: DealsClientProps) => {
   };
   return (
     <div>
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <Heading title="Deals" description={`Manage ${brand.name} Deals`} />
         <Button
           color="primary"
@@ -83,7 +94,16 @@ const DealsClient = ({ deals }: DealsClientProps) => {
 
       <div className="my-2 md:mx-5">
         {deals && (
-          <DataTable<Deal>
+          <DataTable<
+            Deal & {
+              Product:
+                | {
+                    id: string;
+                    title: string;
+                  }[]
+                | null;
+            }
+          >
             searchKey="name"
             data={deals}
             columns={columns}

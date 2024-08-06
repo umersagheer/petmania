@@ -1,12 +1,5 @@
 import { adminPaths } from "@/config/constants";
-import {
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Image,
-  Link,
-} from "@nextui-org/react";
+import { Image, Link } from "@nextui-org/react";
 import React from "react";
 
 const NotFound = () => {

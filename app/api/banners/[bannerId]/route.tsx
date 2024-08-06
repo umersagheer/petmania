@@ -38,7 +38,7 @@ export async function PATCH(
   try {
     const session = getServerSession();
     const body = await req.json();
-    const { title, image, productId } = body;
+    const { image, productId } = body;
 
     if (!session) {
       return new NextResponse("Unauthenticated", { status: 401 });
@@ -54,7 +54,6 @@ export async function PATCH(
         id: params.bannerId,
       },
       data: {
-        title,
         image,
         product: {
           connect: productId ? { id: productId } : undefined,

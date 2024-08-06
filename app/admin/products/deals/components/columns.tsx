@@ -16,8 +16,15 @@ export type ColumnsType = {
 };
 
 type RenderCellProps = {
-  deal: Deal;
-  columnKey: keyof Deal | "actions";
+  deal: Deal & {
+    Product:
+      | {
+          id: string;
+          title: string;
+        }[]
+      | null;
+  };
+  columnKey: string;
   onOpenModal: (deal: Deal) => void;
   onOpenDeleteModal: (deal: Deal) => void;
   router: any;

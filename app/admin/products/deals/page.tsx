@@ -5,7 +5,16 @@ import Loading from "../../loading";
 import DealsClient from "./components/deals-client";
 
 const DealsPage = async () => {
-  const deals = prisma.deal.findMany({});
+  const deals = prisma.deal.findMany({
+    include: {
+      Product: {
+        select: {
+          id: true,
+          title: true,
+        },
+      },
+    },
+  });
 
   return (
     <div className="">
